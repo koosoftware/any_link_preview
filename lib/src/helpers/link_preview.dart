@@ -249,7 +249,8 @@ class AnyLinkPreview extends StatefulWidget {
 
 class AnyLinkPreviewState extends State<AnyLinkPreview> {
   BaseMetaInfo? _info;
-  late String _errorImage, _errorTitle, _errorBody;
+  late String? _errorImage;
+  late String _errorTitle, _errorBody;
   bool _loading = false;
   bool _linkValid = false, _proxyValid = true;
   String originalLink = '';
