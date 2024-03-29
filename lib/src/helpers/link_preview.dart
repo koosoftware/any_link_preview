@@ -257,8 +257,7 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
   @override
   void initState() {
     originalLink = widget.link;
-    _errorImage = widget.errorImage ??
-        'https://github.com/sur950/any_link_preview/blob/master/lib/assets/giphy.gif?raw=true';
+    _errorImage = widget.errorImage;
     _errorTitle = widget.errorTitle ?? 'Something went wrong!';
     _errorBody = widget.errorBody ??
         'Oops! Unable to parse the url. We have sent feedback to our developers & we will try to fix this in our next release. Thanks!';
