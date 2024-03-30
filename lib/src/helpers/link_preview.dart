@@ -263,16 +263,41 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
     _errorBody = widget.errorBody ??
         'Oops! Unable to parse the url. We have sent feedback to our developers & we will try to fix this in our next release. Thanks!';
 
-    _linkValid = AnyLinkPreview.isValidLink(originalLink);
+    // Make hostname lowercase
+    var splitProtocol = '';
+    var splitUrl = '';
+    var split = originalLink.split('://');
+    if (split.length > 1) {
+      // contains protocol
+      splitProtocol = '${split[0]}://';
+      splitUrl = split[1];
+    } else {
+      // no protocol
+      splitUrl = originalLink;
+    }
+
+    var splitHostname = '';
+    var splitRemaining = '';
+    var pos = splitUrl.indexOf('/');
+    if (pos >= 0) {
+      splitHostname = splitUrl.substring(0, pos).toLowerCase();
+      splitRemaining = splitUrl.substring(pos);
+    } else {
+      splitHostname = splitUrl.toLowerCase();
+    }
+
+    var finalLink = splitProtocol + splitHostname + splitRemaining;
+
+    _linkValid = AnyLinkPreview.isValidLink(finalLink);
     if ((widget.proxyUrl ?? '').isNotEmpty) {
       _proxyValid = AnyLinkPreview.isValidLink(widget.proxyUrl!);
     }
     if (_linkValid && _proxyValid) {
       // removing www. from the link if available
-      if (originalLink.startsWith('www.')) {
-        originalLink = originalLink.replaceFirst('www.', '');
+      if (finalLink.startsWith('www.')) {
+        finalLink = finalLink.replaceFirst('www.', '');
       }
-      var linkToFetch = ((widget.proxyUrl ?? '') + originalLink).trim();
+      var linkToFetch = ((widget.proxyUrl ?? '') + finalLink).trim();
       _loading = true;
       _getInfo(linkToFetch);
     }
