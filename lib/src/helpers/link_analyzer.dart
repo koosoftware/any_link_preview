@@ -71,7 +71,7 @@ class LinkAnalyzer {
         // 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)',
         // 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
         userAgent:
-            'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
       );
 
   /// Fetches a [url], validates it, and returns [Metadata].
