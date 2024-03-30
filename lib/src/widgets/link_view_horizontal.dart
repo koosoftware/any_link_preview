@@ -80,7 +80,7 @@ class LinkViewHorizontal extends StatelessWidget {
                       child: imageProvider == null
                           ? Container(
                               decoration: BoxDecoration(
-                                color: Colors.grey,
+                                color: Color.fromARGB(255, 238, 238, 238),
                                 borderRadius: radius == 0
                                     ? BorderRadius.zero
                                     : BorderRadius.only(
