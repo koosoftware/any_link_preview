@@ -14,8 +14,7 @@ class _MyAppState extends State<MyApp> {
   /// I picked these links & images from internet
   final String _errorImage =
       "https://i.ytimg.com/vi/z8wrRRR7_qU/maxresdefault.jpg";
-  final String _url1 =
-      "https://www.espn.in/football/soccer-transfers/story/4163866/transfer-talk-lionel-messi-tells-barcelona-hes-more-likely-to-leave-then-stay";
+  final String _url1 = "https://vt.tiktok.com/ZSFCJBFPb/";
   final String _url2 =
       "https://speakerdeck.com/themsaid/the-power-of-laravel-queues";
   final String _url3 =
@@ -69,13 +68,12 @@ class _MyAppState extends State<MyApp> {
               AnyLinkPreview(
                 link: _url1,
                 displayDirection: UIDirection.uiDirectionHorizontal,
-                cache: Duration(hours: 1),
+                cache: Duration(hours: 0),
                 backgroundColor: Colors.grey[300],
                 errorWidget: Container(
                   color: Colors.grey[300],
                   child: Text('Oops!'),
                 ),
-                errorImage: _errorImage,
               ),
               SizedBox(height: 25),
               AnyLinkPreview(

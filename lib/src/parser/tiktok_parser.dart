@@ -20,7 +20,6 @@ class TikTokParser with BaseMetaInfo {
     );
     if (jsonString != null && jsonString.isNotEmpty) {
       final jsonObj = jsonDecode(jsonString);
-      print(jsonObj.toString());
       return jsonObj['__DEFAULT_SCOPE__']['webapp.video-detail']['shareMeta']
           ['title'];
     }
@@ -30,16 +29,35 @@ class TikTokParser with BaseMetaInfo {
 
   /// Get [Metadata.desc] from 'twitter:description'
   @override
-  String? get desc =>
-      getProperty(_document,
-          attribute: 'name', property: 'twitter:description') ??
-      getProperty(_document, property: 'twitter:description');
+  String? get desc {
+    var jsonString = getScript(
+      _document,
+      id: '__UNIVERSAL_DATA_FOR_REHYDRATION__',
+    );
+    if (jsonString != null && jsonString.isNotEmpty) {
+      final jsonObj = jsonDecode(jsonString);
+      return jsonObj['__DEFAULT_SCOPE__']['webapp.video-detail']['shareMeta']
+          ['desc'];
+    }
+
+    return null;
+  }
 
   /// Get [Metadata.image] from 'twitter:image'
   @override
-  String? get image =>
-      getProperty(_document, attribute: 'name', property: 'twitter:image') ??
-      getProperty(_document, property: 'twitter:image');
+  String? get image {
+    var jsonString = getScript(
+      _document,
+      id: '__UNIVERSAL_DATA_FOR_REHYDRATION__',
+    );
+    if (jsonString != null && jsonString.isNotEmpty) {
+      final jsonObj = jsonDecode(jsonString);
+      return jsonObj['__DEFAULT_SCOPE__']['webapp.video-detail']['itemInfo']
+          ['itemStruct']['video']['zoomCover']['240'];
+    }
+
+    return null;
+  }
 
   /// Twitter Cards do not have a url property so get the url from [og:url], if available.
   @override
