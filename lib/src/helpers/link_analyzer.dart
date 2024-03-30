@@ -240,6 +240,7 @@ class LinkAnalyzer {
 
   static Metadata? _tiktokCard(Document? document) {
     try {
+      print('tiktok');
       return TikTokParser(document).parse();
     } catch (e) {
       return null;
