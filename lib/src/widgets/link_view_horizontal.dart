@@ -79,8 +79,8 @@ class LinkViewHorizontal extends StatelessWidget {
                       flex: 2,
                       child: imageProvider == null
                           ? Container(
-                              color: Colors.grey,
                               decoration: BoxDecoration(
+                                color: Colors.grey,
                                 borderRadius: radius == 0
                                     ? BorderRadius.zero
                                     : BorderRadius.only(
