@@ -33,3 +33,18 @@ String? getProperty(
   // print(value_);
   return value_;
 }
+
+String? getScript(
+  Document? document, {
+  String tag = 'script',
+  String attribute = 'id',
+  String? id,
+}) {
+  var value_ = document
+      ?.getElementsByTagName(tag)
+      .cast<Element?>()
+      .firstWhere((element) => element?.attributes[attribute] == id,
+          orElse: () => null)
+      ?.text;
+  return value_;
+}

@@ -4,6 +4,7 @@ import 'dart:async' as async;
 import 'dart:convert';
 
 import 'package:any_link_preview/any_link_preview.dart';
+import 'package:any_link_preview/src/parser/tiktok_parser.dart';
 import 'package:flutter/foundation.dart';
 import 'package:html/dom.dart' show Document;
 import 'package:html/parser.dart';
@@ -168,6 +169,7 @@ class LinkAnalyzer {
     final output = Metadata();
 
     final parsers = [
+      _tiktokCard(document),
       _openGraph(document),
       _twitterCard(document),
       _jsonLdSchema(document),
@@ -231,6 +233,14 @@ class LinkAnalyzer {
   static Metadata? _otherParser(Document? document) {
     try {
       return OtherParser(document).parse();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Metadata? _tiktokCard(Document? document) {
+    try {
+      return TikTokParser(document).parse();
     } catch (e) {
       return null;
     }
