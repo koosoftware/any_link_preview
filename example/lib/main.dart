@@ -14,9 +14,9 @@ class _MyAppState extends State<MyApp> {
   /// I picked these links & images from internet
   final String _errorImage =
       "https://i.ytimg.com/vi/z8wrRRR7_qU/maxresdefault.jpg";
-  final String _url1 = "https://vt.tiktok.com/ZSFCJBFPb/";
-  final String _url2 =
-      "https://speakerdeck.com/themsaid/the-power-of-laravel-queues";
+  final String _url1 =
+      "https://twitter.com/ProductHunt/status/1754637290138390787?t=urbXNHc06COyuqEFYihJBg&s=19";
+  final String _url2 = "https://vt.tiktok.com/ZSFCJBFPb/";
   final String _url3 =
       "https://twitter.com/laravelphp/status/1222535498880692225";
   final String _url4 = "https://www.youtube.com/watch?v=W1pNjxmNHNQ";
@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _getMetadata(_url6);
+    //_getMetadata(_url6);
   }
 
   void _getMetadata(String url) async {
