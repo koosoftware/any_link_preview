@@ -92,6 +92,8 @@ class LinkViewHorizontal extends StatelessWidget {
                                 alignment: Alignment.center,
                                 child: Icon(
                                   Icons.broken_image_outlined,
+                                  size: 48,
+                                  color: Colors.grey,
                                 ),
                               ),
                             )
