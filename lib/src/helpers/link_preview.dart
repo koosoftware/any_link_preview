@@ -263,7 +263,6 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
     _errorBody = widget.errorBody ??
         'Oops! Unable to parse the url. We have sent feedback to our developers & we will try to fix this in our next release. Thanks!';
 
-    originalLink = "Https://groundworm.COM";
     // Make hostname lowercase
     var splitProtocol = '';
     var splitUrl = '';
