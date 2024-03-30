@@ -88,8 +88,11 @@ class LinkViewHorizontal extends StatelessWidget {
                                         bottomLeft: Radius.circular(radius!),
                                       ),
                               ),
-                              child: Icon(
-                                Icons.broken_image_outlined,
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Icon(
+                                  Icons.broken_image_outlined,
+                                ),
                               ),
                             )
                           : Container(
