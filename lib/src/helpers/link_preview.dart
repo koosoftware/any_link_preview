@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:any_link_preview/any_link_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -263,30 +264,33 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
     _errorBody = widget.errorBody ??
         'Oops! Unable to parse the url. We have sent feedback to our developers & we will try to fix this in our next release. Thanks!';
 
-    // Make hostname lowercase
-    var splitProtocol = '';
-    var splitUrl = '';
-    var split = originalLink.split('://');
-    if (split.length > 1) {
-      // contains protocol
-      splitProtocol = '${split[0]}://'.toLowerCase();
-      splitUrl = split[1];
-    } else {
-      // no protocol
-      splitUrl = originalLink;
-    }
+    var finalLink = originalLink;
+    if (!kIsWeb) {
+      // Make hostname lowercase
+      var splitProtocol = '';
+      var splitUrl = '';
+      var split = originalLink.split('://');
+      if (split.length > 1) {
+        // contains protocol
+        splitProtocol = '${split[0]}://'.toLowerCase();
+        splitUrl = split[1];
+      } else {
+        // no protocol
+        splitUrl = originalLink;
+      }
 
-    var splitHostname = '';
-    var splitRemaining = '';
-    var pos = splitUrl.indexOf('/');
-    if (pos >= 0) {
-      splitHostname = splitUrl.substring(0, pos).toLowerCase();
-      splitRemaining = splitUrl.substring(pos);
-    } else {
-      splitHostname = splitUrl.toLowerCase();
-    }
+      var splitHostname = '';
+      var splitRemaining = '';
+      var pos = splitUrl.indexOf('/');
+      if (pos >= 0) {
+        splitHostname = splitUrl.substring(0, pos).toLowerCase();
+        splitRemaining = splitUrl.substring(pos);
+      } else {
+        splitHostname = splitUrl.toLowerCase();
+      }
 
-    var finalLink = splitProtocol + splitHostname + splitRemaining;
+      finalLink = splitProtocol + splitHostname + splitRemaining;
+    }
 
     _linkValid = AnyLinkPreview.isValidLink(finalLink);
     if ((widget.proxyUrl ?? '').isNotEmpty) {
