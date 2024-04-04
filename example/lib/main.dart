@@ -22,13 +22,12 @@ class _MyAppState extends State<MyApp> {
       "https://twitter.com/laravelphp/status/1222535498880692225";
   final String _url4 = "https://www.youtube.com/watch?v=W1pNjxmNHNQ";
   final String _url5 = "https://flutter.dev/";
-  final String _url6 =
-      "https://www.amazon.com/gp/product/B00JZEW4XS?ie=UTF8&th=1&linkCode=li1&tag=pratiksharu-20&linkId=1d34bc8b2b8b01132376486955c5d313&language=en_US&ref_=as_li_ss_il";
+  final String _url6 = "https://www.youtube.com/watch?v=W1pNjxmNHNQ";
 
   @override
   void initState() {
     super.initState();
-    //_getMetadata(_url6);
+    _getMetadata(_url6);
   }
 
   void _getMetadata(String url) async {
@@ -37,7 +36,7 @@ class _MyAppState extends State<MyApp> {
       Metadata? _metadata = await AnyLinkPreview.getMetadata(
         link: url,
         cache: Duration(days: 7),
-        proxyUrl: "https://cors-anywhere.herokuapp.com/", // Needed for web app
+        proxyUrl: "https://corsproxy.io/?", // Needed for web app
       );
       debugPrint("URL6 => ${_metadata?.title}");
       debugPrint(_metadata?.desc);
@@ -66,7 +65,7 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AnyLinkPreview(
+              /*AnyLinkPreview(
                 link: _url1,
                 displayDirection: UIDirection.uiDirectionHorizontal,
                 cache: Duration(hours: 0),
@@ -76,7 +75,7 @@ class _MyAppState extends State<MyApp> {
                   child: Text('Oops!'),
                 ),
               ),
-              /*SizedBox(height: 25),
+              SizedBox(height: 25),
               AnyLinkPreview(
                 link: _url2,
                 displayDirection: UIDirection.uiDirectionHorizontal,

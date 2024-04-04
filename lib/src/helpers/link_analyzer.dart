@@ -60,12 +60,14 @@ class LinkAnalyzer {
   // So we use this hack to fetch server side rendered meta tags
   // This helps for URL's who follow client side meta tag generation technique
   static Future<Metadata?> getInfoClientSide(
-    String url, {
+    String url,
+    String? proxyUrl, {
     Duration? cache = const Duration(hours: 24),
     Map<String, String> headers = const {},
   }) =>
       getInfo(
         url,
+        proxyUrl,
         cache: cache,
         headers: headers,
         // 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)',
@@ -76,32 +78,35 @@ class LinkAnalyzer {
 
   /// Fetches a [url], validates it, and returns [Metadata].
   static Future<Metadata?> getInfo(
-    String url, {
+    String url,
+    String? proxyUrl, {
     Duration? cache = const Duration(hours: 24),
     Map<String, String> headers = const {},
     String? userAgent,
   }) async {
+    var linkToFetch = ((proxyUrl ?? '') + url).trim();
+
     Metadata? info;
     if ((cache?.inSeconds ?? 0) > 0) {
-      info = await getInfoFromCache(url);
+      info = await getInfoFromCache(linkToFetch);
     } else {
-      _deleteFromCache(url);
+      _deleteFromCache(linkToFetch);
     }
     if (info != null) return info;
 
     // info = await _getInfo(url, multimedia);
-    if (!isURL(url)) return null;
+    if (!isURL(linkToFetch)) return null;
 
     /// Default values; Domain name as the [title],
     /// URL as the [description]
-    info?.title = getDomain(url);
-    info?.desc = url;
-    info?.url = url;
+    info?.title = getDomain(linkToFetch);
+    info?.desc = linkToFetch;
+    info?.url = linkToFetch;
 
     try {
       // Make our network call
       final response = await http.get(
-        Uri.parse(url),
+        Uri.parse(linkToFetch),
         headers: {
           ...headers,
           ...userAgent != null ? {'User-Agent': userAgent} : {}
@@ -112,25 +117,25 @@ class LinkAnalyzer {
       if (headerContentType != null && headerContentType.startsWith('image/')) {
         info?.title = '';
         info?.desc = '';
-        info?.image = url;
+        info?.image = linkToFetch;
         return info;
       }
 
       final document = responseToDocument(response);
       if (document == null) return info;
 
-      final data_ = _extractMetadata(document, url: url);
+      final data_ = _extractMetadata(document, url: linkToFetch);
 
       if (data_ == null) {
         return info;
       } else if (cache != null) {
         data_.timeout = DateTime.now().add(cache);
-        await CacheManager.setJson(key: url, value: data_.toJson());
+        await CacheManager.setJson(key: linkToFetch, value: data_.toJson());
       }
 
       return data_;
     } catch (error) {
-      debugPrint('AnyLinkPreview - Error in $url response ($error)');
+      debugPrint('AnyLinkPreview - Error in $linkToFetch response ($error)');
       // Any sort of exceptions due to wrong URL's, host lookup failure etc.
       return null;
     }

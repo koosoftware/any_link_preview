@@ -177,9 +177,10 @@ class AnyLinkPreview extends StatefulWidget {
     if (linkValid && proxyValid) {
       // removing www. from the link if available
       if (link.startsWith('www.')) link = link.replaceFirst('www.', '');
-      var linkToFetch = ((proxyUrl ?? '') + link).trim();
+
       return _getMetadata(
-        linkToFetch,
+        link,
+        proxyUrl,
         cache: cache,
         headers: headers ?? {},
       );
@@ -192,13 +193,15 @@ class AnyLinkPreview extends StatefulWidget {
 
   @protected
   static Future<Metadata?> _getMetadata(
-    String link, {
+    String link,
+    String? proxyUrl, {
     Duration? cache = const Duration(days: 1),
     Map<String, String>? headers,
   }) async {
     try {
       var info = await LinkAnalyzer.getInfo(
         link,
+        proxyUrl,
         cache: cache,
         headers: headers ?? {},
       );
@@ -206,6 +209,7 @@ class AnyLinkPreview extends StatefulWidget {
         // if info is null or data is empty try to read url metadata from client side
         info = await LinkAnalyzer.getInfoClientSide(
           link,
+          proxyUrl,
           cache: cache,
           headers: headers ?? {},
         );
@@ -301,16 +305,16 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
       if (finalLink.startsWith('www.')) {
         finalLink = finalLink.replaceFirst('www.', '');
       }
-      var linkToFetch = ((widget.proxyUrl ?? '') + finalLink).trim();
       _loading = true;
-      _getInfo(linkToFetch);
+      _getInfo(finalLink, widget.proxyUrl);
     }
     super.initState();
   }
 
-  Future<void> _getInfo(String link) async {
+  Future<void> _getInfo(String link, String? proxyUrl) async {
     _info = await AnyLinkPreview._getMetadata(
       link,
+      proxyUrl,
       cache: widget.cache,
       headers: widget.headers,
     );
