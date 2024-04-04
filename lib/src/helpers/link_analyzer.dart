@@ -104,6 +104,29 @@ class LinkAnalyzer {
     info?.url = linkToFetch;
 
     try {
+      if (kIsWeb) {
+        // Get final URL first for flutter web
+        final resp = await http.post(
+          Uri.parse('https://groundworm.com/api/1.4.0/post/CApiGetFinalUrl'),
+          headers: {
+            'Authorization': 'Bearer fc36PbfSWm8fSbhs9tX7RHUWTqCL3djG',
+          },
+          body: {
+            'url': url,
+          },
+        );
+        if (resp.statusCode == 200) {
+          var jsonData = jsonDecode(resp.body);
+          var errorCode = jsonData['errorCode'];
+          if (errorCode != null && errorCode == 'NONE') {
+            var finalUrl = jsonData['finalUrl'];
+            if (finalUrl != null && finalUrl.length > 0) {
+              linkToFetch = ((proxyUrl ?? '') + finalUrl).trim();
+            }
+          }
+        }
+      }
+
       // Make our network call
       final response = await http.get(
         Uri.parse(linkToFetch),
