@@ -439,19 +439,60 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
 
     Widget loadingErrorWidget = Container(
       height: height,
-      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
+        color: widget.backgroundColor,
         borderRadius: BorderRadius.circular(widget.borderRadius ?? 12),
-        color: Colors.grey[200],
+        boxShadow: widget.removeElevation
+            ? []
+            : widget.boxShadow ??
+                [BoxShadow(blurRadius: 3, color: Colors.grey)],
       ),
-      alignment: Alignment.center,
-      child: Text(
+      /*child: Text(
         !_linkValid
             ? 'Invalid Link'
             : !_proxyValid
                 ? 'Proxy URL is invalid. Kindly pass only if required'
                 : 'Fetching data...',
-      ),
+      ),*/
+      child: (widget.displayDirection == UIDirection.uiDirectionHorizontal)
+          ? LinkViewHorizontal(
+              key: widget.key ?? Key(originalLink.toString()),
+              url: originalLink,
+              title: '',
+              description: !_linkValid
+                  ? 'Invalid Link'
+                  : !_proxyValid
+                      ? 'Proxy URL is invalid. Kindly pass only if required'
+                      : originalLink,
+              imageProvider: null,
+              onTap: widget.onTap ?? () => _launchURL(originalLink),
+              titleTextStyle: widget.titleStyle,
+              bodyTextStyle: widget.bodyStyle,
+              bodyTextOverflow: widget.bodyTextOverflow,
+              bodyMaxLines: widget.bodyMaxLines,
+              showMultiMedia: widget.showMultimedia,
+              bgColor: widget.backgroundColor,
+              radius: widget.borderRadius ?? 12,
+            )
+          : LinkViewVertical(
+              key: widget.key ?? Key(originalLink.toString()),
+              url: originalLink,
+              title: '',
+              description: !_linkValid
+                  ? 'Invalid Link'
+                  : !_proxyValid
+                      ? 'Proxy URL is invalid. Kindly pass only if required'
+                      : 'Fetching data...',
+              imageProvider: null,
+              onTap: widget.onTap ?? () => _launchURL(originalLink),
+              titleTextStyle: widget.titleStyle,
+              bodyTextStyle: widget.bodyStyle,
+              bodyTextOverflow: widget.bodyTextOverflow,
+              bodyMaxLines: widget.bodyMaxLines,
+              showMultiMedia: widget.showMultimedia,
+              bgColor: widget.backgroundColor,
+              radius: widget.borderRadius ?? 12,
+            ),
     );
 
     if (_loading) {
