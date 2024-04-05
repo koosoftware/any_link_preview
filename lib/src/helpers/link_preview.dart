@@ -356,7 +356,7 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
 
   Widget _buildLinkContainer(double height, Metadata info) {
     final image = LinkAnalyzer.isNotEmpty(info.image)
-        ? ((widget.proxyUrl ?? '') + (info.image ?? ''))
+        ? ((kIsWeb ? 'https://corsproxy.io/?' : '') + (info.image ?? ''))
         : null;
 
     if (widget.itemBuilder != null) {

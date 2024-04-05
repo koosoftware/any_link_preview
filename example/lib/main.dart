@@ -16,7 +16,7 @@ class _MyAppState extends State<MyApp> {
       "https://i.ytimg.com/vi/z8wrRRR7_qU/maxresdefault.jpg";
   /*final String _url1 =
       "https://twitter.com/ProductHunt/status/1754637290138390787?t=urbXNHc06COyuqEFYihJBg&s=19";*/
-  final String _url1 = "Https://groundworm.COM";
+  final String _url1 = "https://vt.tiktok.com/ZSFCJBFPb/";
   final String _url2 = "https://vt.tiktok.com/ZSFCJBFPb/";
   final String _url3 =
       "https://twitter.com/laravelphp/status/1222535498880692225";
@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _getMetadata(_url6);
+    //_getMetadata(_url6);
   }
 
   void _getMetadata(String url) async {
@@ -65,8 +65,9 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              /*AnyLinkPreview(
+              AnyLinkPreview(
                 link: _url1,
+                proxyUrl: "https://api.codetabs.com/v1/proxy?quest=",
                 displayDirection: UIDirection.uiDirectionHorizontal,
                 cache: Duration(hours: 0),
                 backgroundColor: Colors.grey[300],
@@ -75,7 +76,7 @@ class _MyAppState extends State<MyApp> {
                   child: Text('Oops!'),
                 ),
               ),
-              SizedBox(height: 25),
+              /*SizedBox(height: 25),
               AnyLinkPreview(
                 link: _url2,
                 displayDirection: UIDirection.uiDirectionHorizontal,
