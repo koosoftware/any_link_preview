@@ -269,32 +269,30 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
         'Oops! Unable to parse the url. We have sent feedback to our developers & we will try to fix this in our next release. Thanks!';
 
     var finalLink = originalLink;
-    if (!kIsWeb) {
-      // Make hostname lowercase
-      var splitProtocol = '';
-      var splitUrl = '';
-      var split = originalLink.split('://');
-      if (split.length > 1) {
-        // contains protocol
-        splitProtocol = '${split[0]}://'.toLowerCase();
-        splitUrl = split[1];
-      } else {
-        // no protocol
-        splitUrl = originalLink;
-      }
-
-      var splitHostname = '';
-      var splitRemaining = '';
-      var pos = splitUrl.indexOf('/');
-      if (pos >= 0) {
-        splitHostname = splitUrl.substring(0, pos).toLowerCase();
-        splitRemaining = splitUrl.substring(pos);
-      } else {
-        splitHostname = splitUrl.toLowerCase();
-      }
-
-      finalLink = splitProtocol + splitHostname + splitRemaining;
+    // Make hostname lowercase
+    var splitProtocol = '';
+    var splitUrl = '';
+    var split = originalLink.split('://');
+    if (split.length > 1) {
+      // contains protocol
+      splitProtocol = '${split[0]}://'.toLowerCase();
+      splitUrl = split[1];
+    } else {
+      // no protocol
+      splitUrl = originalLink;
     }
+
+    var splitHostname = '';
+    var splitRemaining = '';
+    var pos = splitUrl.indexOf('/');
+    if (pos >= 0) {
+      splitHostname = splitUrl.substring(0, pos).toLowerCase();
+      splitRemaining = splitUrl.substring(pos);
+    } else {
+      splitHostname = splitUrl.toLowerCase();
+    }
+
+    finalLink = splitProtocol + splitHostname + splitRemaining;
 
     _linkValid = AnyLinkPreview.isValidLink(finalLink);
     if ((widget.proxyUrl ?? '').isNotEmpty) {
