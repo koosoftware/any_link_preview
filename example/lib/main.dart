@@ -16,7 +16,7 @@ class _MyAppState extends State<MyApp> {
       "https://i.ytimg.com/vi/z8wrRRR7_qU/maxresdefault.jpg";
   /*final String _url1 =
       "https://twitter.com/ProductHunt/status/1754637290138390787?t=urbXNHc06COyuqEFYihJBg&s=19";*/
-  final String _url1 = "https://vt.tiktok.com/ZSFCJBFPb/";
+  final String _url1 = "https://youtu.be/SqfMy8LEdRs?si=LVcpY6t0riL22oPd";
   final String _url2 = "https://vt.tiktok.com/ZSFCJBFPb/";
   final String _url3 =
       "https://twitter.com/laravelphp/status/1222535498880692225";

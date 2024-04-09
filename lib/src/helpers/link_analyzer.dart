@@ -119,9 +119,16 @@ class LinkAnalyzer {
           var jsonData = jsonDecode(resp.body);
           var errorCode = jsonData['errorCode'];
           if (errorCode != null && errorCode == 'NONE') {
-            var finalUrl = jsonData['finalUrl'];
-            if (finalUrl != null && finalUrl.length > 0) {
-              linkToFetch = ((proxyUrl ?? '') + finalUrl).trim();
+            String? finalUrl = jsonData['finalUrl'];
+            if (finalUrl != null && finalUrl.isNotEmpty) {
+              if (finalUrl.startsWith('https://www.youtube.com/') ||
+                  finalUrl.startsWith('http://www.youtube.com/') ||
+                  finalUrl.startsWith('https://youtube.com/') ||
+                  finalUrl.startsWith('http://youtube.com/')) {
+                linkToFetch = 'https://corsproxy.io/?$finalUrl'.trim();
+              } else {
+                linkToFetch = ((proxyUrl ?? '') + finalUrl).trim();
+              }
             }
           }
         }
