@@ -36,7 +36,9 @@ class _MyAppState extends State<MyApp> {
       Metadata? _metadata = await AnyLinkPreview.getMetadata(
         link: url,
         cache: Duration(days: 7),
-        proxyUrl: "https://corsproxy.io/?", // Needed for web app
+        proxyUrl: "https://corsproxy.io/?",
+        followRedirectsUrl:
+            "https://groundworm.com/api/1.4.0/post/CApiGetFinalUrl",
       );
       debugPrint("URL6 => ${_metadata?.title}");
       debugPrint(_metadata?.desc);
@@ -68,6 +70,8 @@ class _MyAppState extends State<MyApp> {
               AnyLinkPreview(
                 link: _url1,
                 proxyUrl: "https://api.codetabs.com/v1/proxy?quest=",
+                followRedirectsUrl:
+                    "https://groundworm.com/api/1.4.0/post/CApiGetFinalUrl",
                 displayDirection: UIDirection.uiDirectionHorizontal,
                 cache: Duration(hours: 0),
                 backgroundColor: Colors.grey[300],

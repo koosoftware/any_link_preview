@@ -89,6 +89,7 @@ class AnyLinkPreview extends StatefulWidget {
   /// Proxy URL to pass that resolve CORS issues on web.
   /// For example, `https://cors-anywhere.herokuapp.com/` .
   final String? proxyUrl;
+  final String? followRedirectsUrl;
 
   /// Headers to be added in the HTTP request to the link
   final Map<String, String>? headers;
@@ -127,6 +128,7 @@ class AnyLinkPreview extends StatefulWidget {
     this.boxShadow,
     this.removeElevation = false,
     this.proxyUrl,
+    this.followRedirectsUrl,
     this.headers,
     this.onTap,
     this.previewHeight,
@@ -142,6 +144,7 @@ class AnyLinkPreview extends StatefulWidget {
     this.placeholderWidget,
     this.errorWidget,
     this.proxyUrl,
+    this.followRedirectsUrl,
     this.headers,
   })  : titleStyle = null,
         bodyStyle = null,
@@ -167,7 +170,8 @@ class AnyLinkPreview extends StatefulWidget {
   /// Method to fetch metadata directly
   static Future<Metadata?> getMetadata({
     required String link,
-    String? proxyUrl = '', // Pass for web
+    String? proxyUrl = '',
+    String? followRedirectsUrl = '',
     Duration? cache = const Duration(days: 1),
     Map<String, String>? headers,
   }) async {
@@ -181,6 +185,7 @@ class AnyLinkPreview extends StatefulWidget {
       return _getMetadata(
         link,
         proxyUrl,
+        followRedirectsUrl,
         cache: cache,
         headers: headers ?? {},
       );
@@ -194,7 +199,8 @@ class AnyLinkPreview extends StatefulWidget {
   @protected
   static Future<Metadata?> _getMetadata(
     String link,
-    String? proxyUrl, {
+    String? proxyUrl,
+    String? followRedirectsUrl, {
     Duration? cache = const Duration(days: 1),
     Map<String, String>? headers,
   }) async {
@@ -202,6 +208,7 @@ class AnyLinkPreview extends StatefulWidget {
       var info = await LinkAnalyzer.getInfo(
         link,
         proxyUrl,
+        followRedirectsUrl,
         cache: cache,
         headers: headers ?? {},
       );
@@ -210,6 +217,7 @@ class AnyLinkPreview extends StatefulWidget {
         info = await LinkAnalyzer.getInfoClientSide(
           link,
           proxyUrl,
+          followRedirectsUrl,
           cache: cache,
           headers: headers ?? {},
         );
@@ -304,15 +312,24 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
         finalLink = finalLink.replaceFirst('www.', '');
       }
       _loading = true;
-      _getInfo(finalLink, widget.proxyUrl);
+      _getInfo(
+        finalLink,
+        widget.proxyUrl,
+        widget.followRedirectsUrl,
+      );
     }
     super.initState();
   }
 
-  Future<void> _getInfo(String link, String? proxyUrl) async {
+  Future<void> _getInfo(
+    String link,
+    String? proxyUrl,
+    String? followRedirectsUrl,
+  ) async {
     _info = await AnyLinkPreview._getMetadata(
       link,
       proxyUrl,
+      followRedirectsUrl,
       cache: widget.cache,
       headers: widget.headers,
     );

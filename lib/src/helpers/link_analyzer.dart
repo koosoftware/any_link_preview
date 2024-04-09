@@ -61,13 +61,15 @@ class LinkAnalyzer {
   // This helps for URL's who follow client side meta tag generation technique
   static Future<Metadata?> getInfoClientSide(
     String url,
-    String? proxyUrl, {
+    String? proxyUrl,
+    String? followRedirectsUrl, {
     Duration? cache = const Duration(hours: 24),
     Map<String, String> headers = const {},
   }) =>
       getInfo(
         url,
         proxyUrl,
+        followRedirectsUrl,
         cache: cache,
         headers: headers,
         // 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)',
@@ -79,7 +81,8 @@ class LinkAnalyzer {
   /// Fetches a [url], validates it, and returns [Metadata].
   static Future<Metadata?> getInfo(
     String url,
-    String? proxyUrl, {
+    String? proxyUrl,
+    String? followRedirectsUrl, {
     Duration? cache = const Duration(hours: 24),
     Map<String, String> headers = const {},
     String? userAgent,
@@ -104,10 +107,12 @@ class LinkAnalyzer {
     info?.url = linkToFetch;
 
     try {
-      if (kIsWeb) {
+      if (kIsWeb &&
+          followRedirectsUrl != null &&
+          followRedirectsUrl.isNotEmpty) {
         // Get final URL first for flutter web
         final resp = await http.post(
-          Uri.parse('https://groundworm.com/api/1.4.0/post/CApiGetFinalUrl'),
+          Uri.parse(followRedirectsUrl),
           headers: {
             'Authorization': 'Bearer fc36PbfSWm8fSbhs9tX7RHUWTqCL3djG',
           },
